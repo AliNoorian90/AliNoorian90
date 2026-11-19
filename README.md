@@ -1,86 +1,89 @@
-# Ali Noorian
+<div align="center">
 
-**Full-stack engineering · Python · Applied AI systems**
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0B172B,100:1E6FD9&height=170&section=header&text=Ali%20Noorian&fontColor=F0F6FF&fontSize=46&fontAlignY=38&desc=Full-stack%20%C2%B7%20Python%20%C2%B7%20Applied%20AI&descAlignY=60&descSize=17" width="100%" alt="Ali Noorian" />
 
-I build web applications that use language models to solve practical problems. My focus is on what happens around the model: how the backend coordinates the work, how the API represents the result, and how the frontend turns that result into something a person can use.
+**I build web apps where an LLM is one part of a larger system:**
+**a typed API in the middle, structured output on the wire, and a UI that renders it.**
 
-[Projects](#featured-engineering-projects) · [Technical stack](#technical-stack) · [Contact](#professional-contact)
+![Python](https://img.shields.io/badge/Python-0B172B?style=for-the-badge&logo=python&logoColor=60A5FA)
+![FastAPI](https://img.shields.io/badge/FastAPI-0B172B?style=for-the-badge&logo=fastapi&logoColor=67D7E6)
+![React](https://img.shields.io/badge/React-0B172B?style=for-the-badge&logo=react&logoColor=67D7E6)
+![Ollama](https://img.shields.io/badge/Ollama-0B172B?style=for-the-badge&logo=ollama&logoColor=F0F6FF)
 
-## Technical focus
+[Featured project](#featured-project) · [Other projects](#other-projects) · [Stack](#tech-stack) · [Contact](#contact)
 
-- **Full-stack engineering:** Connecting React interfaces to Python backends through explicit request and response contracts.
-- **Backend architecture and API design:** Separating request handling, model orchestration, output validation, and presentation so each layer can evolve independently.
-- **Applied AI and automation:** Using LLMs for request interpretation, retrieval, and multi-step workflows where the result needs to be useful beyond a text reply.
-- **Multi-agent systems and generative UI:** Assigning distinct responsibilities to agents and using structured results to drive charts, tables, and other interface components.
+</div>
 
-## Featured engineering projects
+## What I work on
+
+| Full-stack engineering | Applied AI | Generative UI |
+| --- | --- | --- |
+| React frontends connected to Python backends through explicit request/response contracts. | Multi-agent workflows, LLM integration, RAG, and automation that produce useful results, not just text. | Interfaces that choose and render charts, tables, and cards from structured model output. |
+
+## Featured project
 
 ### Multi-Agent Generative UI Platform
 
-A web application built with **CrewAI, FastAPI, and React**. Instead of returning only a text answer, it interprets a request, selects a suitable representation, and returns structured data that the frontend can render.
+Most AI apps answer with a paragraph. This one answers with the **right view for the data**: a chart, a table, or a statistics card.
 
-1. **Request and orchestration:** FastAPI handles the backend interface. Specialized CrewAI agents interpret the request, determine what information is needed and how it should be structured, then select a visualization.
-2. **Model integration:** The workflow supports local models through Ollama and cloud-hosted models through external APIs.
-3. **Response contract:** Pydantic models define the expected result structure; JSON carries the structured response to React.
-4. **Rendering and progress:** React uses the response to render interactive charts, statistical cards, tables, or other data views. The frontend also shows agent execution progress in real time.
+**How it works**
 
-#### Architecture at a glance
+1. The user sends a request from the React interface.
+2. FastAPI receives it and starts the agent workflow.
+3. CrewAI agents interpret the request, decide what data is needed, and select a visualization.
+4. The result is validated against Pydantic models and returned as JSON.
+5. React renders the matching component and shows agent progress in real time.
 
 ```mermaid
-flowchart TD
-    accTitle: Multi-Agent Generative UI request and rendering flow
-    accDescr: A request moves from React to FastAPI and CrewAI. Agents can use local or cloud models. The structured result returns as JSON to React, which renders a data view and shows agent progress.
-
-    request["User request in React"] --> api["FastAPI backend"]
-    api --> crew["CrewAI · interpret request, structure data, select view"]
-    crew --> contract["Pydantic models · structured response"]
-    contract -->|"JSON response"| render["React · charts, cards, tables"]
-    crew -->|"Model calls"| models["Ollama locally or external cloud LLM APIs"]
-    crew -.->|"Execution status"| progress["React · real-time progress"]
+flowchart LR
+    U["React UI<br/>user request"] --> A["FastAPI<br/>backend"]
+    A --> C["CrewAI agents<br/>interpret · structure · select view"]
+    C <-->|"model calls"| M["Ollama (local)<br/>or cloud LLM APIs"]
+    C --> P["Pydantic models<br/>validated JSON"]
+    P --> R["React renderer<br/>charts · tables · cards"]
+    C -.->|"execution status"| S["Live agent progress"]
+    S -.-> U
 
     classDef app fill:#0B172B,stroke:#60A5FA,color:#F0F6FF;
-    classDef boundary fill:#102540,stroke:#67D7E6,color:#F0F6FF;
-    class request,api,crew,render app;
-    class contract,models,progress boundary;
+    classDef edge fill:#102540,stroke:#67D7E6,color:#F0F6FF;
+    class U,A,C,R app;
+    class M,P,S edge;
 ```
 
-The diagram shows logical responsibilities and data flow. It does not specify endpoint names, a model selection policy, or the transport used for progress updates.
+*Logical view of responsibilities and data flow.*
 
-### MoboYab
+**Design ideas**
 
-An AI-powered smartphone recommendation application. It takes a budget, user preferences, and technical requirements into account when suggesting suitable phones.
+- **Contract first:** the agents' output is validated, so the UI never depends on free-form model text.
+- **Model-agnostic:** the same workflow runs on local models (Ollama) or cloud APIs.
+- **Honest failures:** incomplete results are handled explicitly and never shown as valid visualizations.
+- **Visible progress:** users can watch the agents work instead of waiting on a spinner.
 
-### Chat with Your Data
+**Status:** in active development · **Repository:** coming soon
 
-A Python application for asking questions about uploaded documents and datasets. It uses retrieval-augmented generation (RAG) to bring relevant information from the uploaded material into the model's context.
+## Other projects
 
-### [Kalayab](https://github.com/AliNoorian90/kalayab)
+| Project | What it does | Status |
+| --- | --- | --- |
+| **MoboYab** | AI smartphone recommendations based on budget, preferences, and technical needs. | Repository coming soon |
+| **Chat with Your Data** | Ask questions about your uploaded documents and datasets using retrieval-augmented generation (RAG). | Repository coming soon |
 
-An experiment, not a production application. The public repository is currently empty.
+## Tech stack
 
-## Technical stack
+| Area | Tools |
+| --- | --- |
+| Languages | ![Python](https://img.shields.io/badge/Python-0B172B?style=flat-square&logo=python&logoColor=60A5FA) |
+| Backend | ![FastAPI](https://img.shields.io/badge/FastAPI-0B172B?style=flat-square&logo=fastapi&logoColor=67D7E6) ![Pydantic](https://img.shields.io/badge/Pydantic-0B172B?style=flat-square&logo=pydantic&logoColor=E92063) |
+| Frontend | ![React](https://img.shields.io/badge/React-0B172B?style=flat-square&logo=react&logoColor=67D7E6) |
+| AI / LLM | ![CrewAI](https://img.shields.io/badge/CrewAI-0B172B?style=flat-square) ![Ollama](https://img.shields.io/badge/Ollama-0B172B?style=flat-square&logo=ollama&logoColor=F0F6FF) RAG · Cloud LLM APIs |
+| Tools | ![Git](https://img.shields.io/badge/Git-0B172B?style=flat-square&logo=git&logoColor=F05033) ![GitHub](https://img.shields.io/badge/GitHub-0B172B?style=flat-square&logo=github&logoColor=F0F6FF) |
 
-Technologies used in the projects described here:
+## Currently
 
-- **Programming languages:** Python.
-- **Frontend development:** React and schema-driven rendering of data views.
-- **Backend development:** FastAPI and Pydantic.
-- **AI and machine learning:** CrewAI for agent orchestration and RAG for document and dataset interactions.
-- **LLM infrastructure:** Ollama for local model execution and external APIs for cloud-hosted models.
-- **Databases and data handling:** JSON for API payloads; uploaded documents and datasets as retrieval inputs.
-- **Development tools and automation:** GitHub for repository hosting and documentation. Workflow automation is an application focus.
+Working on the contract between agent output and React rendering: checking schema consistency across local and cloud models, making agent progress easier to follow, and handling partial results safely.
 
-## Engineering interests
+## Contact
 
-- **Agent orchestration:** Choosing when specialized agents add value over a simpler workflow, and keeping responsibilities clear when a step fails.
-- **Structured outputs and modular APIs:** Designing schemas that can be validated, tested, and extended without tightly coupling the UI to model output.
-- **Human-in-the-loop systems:** Making progress visible and identifying which workflow decisions should require a person to review them.
-- **Dynamic visualization and model integration:** Mapping result shapes to appropriate UI components, and evaluating how local and cloud models behave against the same response expectations.
+[![GitHub](https://img.shields.io/badge/GitHub-AliNoorian90-0B172B?style=for-the-badge&logo=github&logoColor=F0F6FF)](https://github.com/AliNoorian90)
 
-## Current development
-
-My current development focus is the multi-agent generative UI platform, particularly the contract between agent output and React rendering. I’m exploring how to evaluate schema consistency across model backends, make agent progress easier to understand, and handle incomplete results without presenting them as valid visualizations.
-
-## Professional contact
-
-[AliNoorian90 on GitHub](https://github.com/AliNoorian90). For a question about a public project, open an issue in its repository if issues are enabled and the question belongs there.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:1E6FD9,100:0B172B&height=90&section=footer" width="100%" alt="" />
